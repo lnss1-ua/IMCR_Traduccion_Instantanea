@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 import os, signal
-from funcionalidades.transcription import transcribe_audio
+from funcionalidades.transcription import Transcribe
 
 # source myenv/bin/activate
 # import torch
@@ -21,6 +21,7 @@ from funcionalidades.transcription import transcribe_audio
 # hacer cambios para que use fp 16 ???
 
 app = Flask(__name__, template_folder='templates')
+transcriber = Transcribe()
 
 @app.route('/')
 def index():
@@ -28,7 +29,7 @@ def index():
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
-    return transcribe_audio()
+    return transcriber.transcribe_audio()
 
 
 def shutdown_server(signum, frame):
