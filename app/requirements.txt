@@ -1,0 +1,8 @@
+flask
+whisper
+numpy
+librosa
+langdetect
+googletrans
+gTTS
+torch

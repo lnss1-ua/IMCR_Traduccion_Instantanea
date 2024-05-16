@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+
+  {% block title %}
+  Transcripción de Audio
+  {% endblock %}
+
+  {% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+  {% endblock %}
+
+  {% block content %}
+
+  {% include 'componentes/transcription.html' %}
+  {% include 'componentes/ejemplo.html' %}
+  
+{% endblock %}
