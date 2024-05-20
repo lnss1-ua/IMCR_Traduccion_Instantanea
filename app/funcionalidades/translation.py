@@ -1,14 +1,11 @@
 # translation.py
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
-def translate_text(text, target_lang):
-    translator = Translator()
+def translate_text(text, src_lang, target_lang):
     try:
-        translation = translator.translate(text, dest=target_lang)
-        return translation.text
-    except TypeError:
-        print("Failed to translate text. The text was: ", text)
-        return text
-    except AttributeError:
+        translation = GoogleTranslator(source=src_lang, target=target_lang).translate(text)
+        return translation
+    except Exception as e:
+        print(e)
         print("Failed to translate text. The text was: ", text)
         return text

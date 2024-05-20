@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import os, signal
-from funcionalidades.transcription import Transcribe
+from funcionalidades.transcription import transcribe_audio
+from funcionalidades.image import DetectFromImage
 
 # source myenv/bin/activate
 # import torch
@@ -21,7 +22,7 @@ from funcionalidades.transcription import Transcribe
 # hacer cambios para que use fp 16 ???
 
 app = Flask(__name__, template_folder='templates')
-transcriber = Transcribe()
+image_detector = DetectFromImage()
 
 @app.route('/')
 def index():
@@ -29,7 +30,7 @@ def index():
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
-    return transcriber.transcribe_audio()
+    return transcribe_audio()
 
 
 def shutdown_server(signum, frame):
