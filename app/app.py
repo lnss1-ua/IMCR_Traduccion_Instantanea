@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template
-import os, signal
+from flask import Flask, request, render_template, jsonify
+import os, signal, filetype
 from funcionalidades.transcription import transcribe_audio
 from funcionalidades.image import DetectFromImage
 
@@ -30,7 +30,27 @@ def index():
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
-    return transcribe_audio()
+    # Store file
+    file = request.files['audio']
+    file.seek(0)
+    temp_path = f"./{file.filename}"
+    file.save(temp_path)
+
+    result = jsonify({'transcription': ''})
+    
+    # Check Type
+    try:  
+        if filetype.is_audio(temp_path):
+            result = transcribe_audio(temp_path)
+        elif filetype.is_image(temp_path):
+            result = image_detector.detect_text(temp_path)
+    except Exception:
+        pass
+
+    # Delete File
+    os.remove(temp_path)
+    
+    return result
 
 
 def shutdown_server(signum, frame):

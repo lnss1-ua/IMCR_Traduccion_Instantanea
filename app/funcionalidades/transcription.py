@@ -6,27 +6,23 @@ from .translation import translate_text
 from .audio import text_to_audio
 
 
-
-
-def transcribe_audio():
+def transcribe_audio(path):
     # Load Whisper Model
     model = whisper.load_model("base") #large
+
     # Assuming that the audio file, output format, and output language are sent in the request
-    audio_file = request.files['audio']
     output_format = request.form['output_format']
     output_lang = request.form['output_lang']
-    # Store File
-    audio_file.seek(0)
-    temp_path = f"./{audio_file.filename}"
-    audio_file.save(temp_path)
+
     # Transcribe the audio
-    result = model.transcribe(temp_path)
-    os.remove(temp_path)
+    result = model.transcribe(path)
+
     # Extract the transcribed text from the result
     transcribed_text = result['text']
     if result['language'] != output_lang:
         # Translate the transcription to the selected output language
         transcribed_text = translate_text(transcribed_text, result['language'], output_lang)
+    
     # If the selected output format is audio, convert the transcription to audio
     # and return it
     if output_format == 'audio':

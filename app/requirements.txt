@@ -3,6 +3,8 @@ whisper
 numpy
 librosa
 langdetect
-googletrans
+deep_translator
 gTTS
 torch
+easyocr
+filetype
