@@ -1,7 +1,8 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 import os, signal, filetype
 from funcionalidades.transcription import transcribe_audio
 from funcionalidades.image import DetectFromImage
+from funcionalidades.translation import translate_request
 
 # source myenv/bin/activate
 # import torch
@@ -26,7 +27,23 @@ image_detector = DetectFromImage()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return redirect(url_for('text'))
+
+@app.route('/audio')
+def audio():
+    return render_template('audio.html')
+
+@app.route('/text')
+def text():
+    return render_template('text.html')
+
+@app.route('/image')
+def image():
+    return render_template('image.html')
+
+@app.route('/sign')
+def sign():
+    return render_template('sign.html')
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
@@ -42,8 +59,9 @@ def transcribe():
     try:  
         if filetype.is_audio(temp_path):
             result = transcribe_audio(temp_path)
-        elif filetype.is_image(temp_path):
-            result = image_detector.detect_text(temp_path)
+        else:
+            None
+            # Show Error Message
     except Exception:
         pass
 
@@ -52,6 +70,34 @@ def transcribe():
     
     return result
 
+@app.route('/translate', methods=['POST'])
+def translate():
+    return translate_request()
+
+@app.route('/detect', methods=['POST'])
+def detect():
+    # Store file
+    file = request.files['image']
+    file.seek(0)
+    temp_path = f"./{file.filename}"
+    file.save(temp_path)
+
+    result = jsonify({'transcription': ''})
+    
+    # Check Type
+    try:  
+        if filetype.is_image(temp_path):
+            result = image_detector.detect_text(temp_path)
+        else:
+            None
+            # Show Error Message
+    except Exception:
+        pass
+
+    # Delete File
+    os.remove(temp_path)
+    
+    return result
 
 def shutdown_server(signum, frame):
     print('Cerrando el servidor...')
@@ -65,4 +111,4 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, shutdown_server)
     
     print("Starting the server...")
-    app.run(debug=True, threaded=True)
+    app.run(debug=True, threaded=True, host='0.0.0.0')

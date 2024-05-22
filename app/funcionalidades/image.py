@@ -17,7 +17,7 @@ class DetectFromImage:
         result = self.reader.readtext(path, detail=0)
 
         # Process the detected text from the result
-        detected_text = ' | '.join(result)
+        detected_text = '   '.join(result)
 
         # Translate the transcription to the selected output language
         detected_text = translate_text(detected_text, 'auto', output_lang)

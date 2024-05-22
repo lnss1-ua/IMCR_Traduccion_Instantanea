@@ -1,12 +1,12 @@
 
 <div class="container">
-    <h2 class="text-center">Transcripción de audio</h2>
+    <h2 class="text-center">Detección de Texto en Imágenes</h2>
 
-    <form action="/transcribe" method="post" enctype="multipart/form-data">
-      <div class="dropzone ml-5 mr-5 center" id="dropzone">Arrastra y suelta el archivo de audio aquí</div>
+    <form action="/detect" method="post" enctype="multipart/form-data">
+      <div class="dropzone ml-5 mr-5 center" id="dropzone">Arrastra y suelta la imagen aquí</div>
 
       <!-- MANEJAR DIFERENTES INPUTS, POR AHORA SOLO AUDIO, FALTA TEXTO Y GESTOS -->
-      <input type="file" name="audio" id="audio" required style="display: none;">
+      <input type="file" name="image" id="image" required style="display: none;">
       <div class="form-group text-center">
         <label for="output_lang" class="h5 text-primary">Idioma de salida</label>
         <div class="col-md-6 offset-md-3">
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-center mt-3">
-        <button type="submit" class="btn btn-primary btn-lg">Transcribir</button>
+        <button type="submit" class="btn btn-primary btn-lg">Detectar</button>
       </div>
     </form>
 
@@ -63,7 +63,7 @@
       event.preventDefault();
       document.getElementById('loading').style.display = 'block'; // Muestra el spinner de carga
       var formData = new FormData(event.target);
-      fetch('/transcribe', { method: 'POST', body: formData })
+      fetch('/detect', { method: 'POST', body: formData })
         .then(response => response.json())
         .then(data => {
           document.getElementById('loading').style.display = 'none'; // Oculta el spinner de carga
@@ -83,7 +83,7 @@
     }
 
     function handleDropzoneClick() {
-      document.getElementById('audio').click();
+      document.getElementById('image').click();
     }
 
     function handleDropzoneDragOver(event) {
@@ -98,7 +98,7 @@
     function handleDropzoneDrop(event) {
       event.preventDefault();
       this.style.backgroundColor = '#f8f8f8';
-      document.getElementById('audio').files = event.dataTransfer.files;
+      document.getElementById('image').files = event.dataTransfer.files;
     }
 
     function handleFileInputChange() {
@@ -110,5 +110,5 @@
     document.getElementById('dropzone').addEventListener('dragover', handleDropzoneDragOver);
     document.getElementById('dropzone').addEventListener('dragleave', handleDropzoneDragLeave);
     document.getElementById('dropzone').addEventListener('drop', handleDropzoneDrop);
-    document.getElementById('audio').addEventListener('change', handleFileInputChange);
+    document.getElementById('image').addEventListener('change', handleFileInputChange);
 </script>

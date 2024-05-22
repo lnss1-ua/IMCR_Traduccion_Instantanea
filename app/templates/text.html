@@ -1,8 +1,8 @@
 
 {% extends "base.html" %}
-
+  {% set text=1 %}
   {% block title %}
-  Transcripción de Audio
+  Traducción de Texto
   {% endblock %}
 
   {% block styles %}
@@ -11,7 +11,6 @@
 
   {% block content %}
 
-  {% include 'componentes/transcription.html' %}
-  {% include 'componentes/ejemplo.html' %}
+  {% include 'componentes/translate.html' %}
   
 {% endblock %}

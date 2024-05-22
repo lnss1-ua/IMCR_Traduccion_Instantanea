@@ -53,23 +53,23 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
-    <a class="navbar-brand" href="#">Logo</a>
+    <a class="navbar-brand" href="#">Poliglot Translate</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Inicio</a>
+        <li class="nav-item {% if text %} active {% endif %}">
+          <a class="nav-link" href="{{ url_for('text') }}">Texto</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Servicios</a>
+        <li class="nav-item {% if audio %} active {% endif %}">
+          <a class="nav-link" href="{{ url_for('audio') }}">Audio</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contacto</a>
+        <li class="nav-item {% if image %} active {% endif %}">
+          <a class="nav-link" href="{{ url_for('image') }}">Imagen</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Acerca de</a>
+        <li class="nav-item {% if sign %} active {% endif %}">
+          <a class="nav-link" href="{{ url_for('sign') }}">Signos</a>
         </li>
       </ul>
     </div>
@@ -99,7 +99,6 @@
           <h5 class="text-uppercase">Enlaces rápidos</h5>
 
           <ul class="list-unstyled mb-0">
-            <li><a href="#" class="text-dark">Inicio</a></li>
             <li><a href="#" class="text-dark">Contacto</a></li>
             <li><a href="#" class="text-dark">Soporte</a></li>
             <li><a href="#" class="text-dark">FAQs</a></li>
