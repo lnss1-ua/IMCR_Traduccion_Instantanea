@@ -8,3 +8,4 @@ gTTS
 torch
 easyocr
 filetype
+tensorflow
